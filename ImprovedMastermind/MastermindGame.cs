@@ -67,5 +67,30 @@ namespace ImprovedMastermind
                 _ => grayBrush,
             };
         }
+
+        public SolidBrush GetUserPegColorBrush(int pegValue)
+        {
+            return pegValue switch
+            {
+                1 => redBrush,
+                2 => blueBrush,
+                3 => yellowBrush,
+                4 => greenBrush,
+                5 => purpleBrush,
+                6 => pinkBrush,
+                7 => whiteBrush,
+                8 => blackBrush,
+                _ => grayBrush,
+            };
+        }
+
+        public void AddUserPeg(int[] userPegs, int pegValue)
+        {
+            int index = Array.IndexOf(userPegs, 0);
+            if (index != -1)
+            {
+                userPegs[index] = pegValue;
+            }
+        }
     }
 }

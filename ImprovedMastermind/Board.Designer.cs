@@ -75,6 +75,7 @@
             userInputPanel.Padding = new Padding(2);
             userInputPanel.Size = new Size(596, 208);
             userInputPanel.TabIndex = 0;
+            userInputPanel.Paint += userInputPanel_Paint;
             // 
             // clearButton
             // 
@@ -90,6 +91,7 @@
             clearButton.TabIndex = 22;
             clearButton.Text = "Clear";
             clearButton.UseVisualStyleBackColor = false;
+            clearButton.Click += clearButton_Click;
             // 
             // blackCircleButton
             // 
@@ -102,6 +104,7 @@
             blackCircleButton.TabIndex = 4;
             blackCircleButton.Tag = "8";
             blackCircleButton.UseVisualStyleBackColor = false;
+            blackCircleButton.Click += ColorCircleButton_Click;
             // 
             // whiteCircleButton
             // 
@@ -114,6 +117,7 @@
             whiteCircleButton.TabIndex = 5;
             whiteCircleButton.Tag = "7";
             whiteCircleButton.UseVisualStyleBackColor = false;
+            whiteCircleButton.Click += ColorCircleButton_Click;
             // 
             // pinkCircleButton
             // 
@@ -126,6 +130,7 @@
             pinkCircleButton.TabIndex = 7;
             pinkCircleButton.Tag = "6";
             pinkCircleButton.UseVisualStyleBackColor = false;
+            pinkCircleButton.Click += ColorCircleButton_Click;
             // 
             // pegGuessLabel
             // 
@@ -149,6 +154,7 @@
             purpleCircleButton.TabIndex = 6;
             purpleCircleButton.Tag = "5";
             purpleCircleButton.UseVisualStyleBackColor = false;
+            purpleCircleButton.Click += ColorCircleButton_Click;
             // 
             // submitButton
             // 
@@ -179,6 +185,7 @@
             clearAllButton.TabIndex = 9;
             clearAllButton.Text = "Clear All";
             clearAllButton.UseVisualStyleBackColor = false;
+            clearAllButton.Click += clearAllButton_Click;
             // 
             // colourLabel
             // 
@@ -202,6 +209,7 @@
             greenCircleButton.TabIndex = 3;
             greenCircleButton.Tag = "4";
             greenCircleButton.UseVisualStyleBackColor = false;
+            greenCircleButton.Click += ColorCircleButton_Click;
             // 
             // redCircleButton
             // 
@@ -214,6 +222,7 @@
             redCircleButton.TabIndex = 0;
             redCircleButton.Tag = "1";
             redCircleButton.UseVisualStyleBackColor = false;
+            redCircleButton.Click += ColorCircleButton_Click;
             // 
             // yellowCircleButton
             // 
@@ -226,6 +235,7 @@
             yellowCircleButton.TabIndex = 2;
             yellowCircleButton.Tag = "3";
             yellowCircleButton.UseVisualStyleBackColor = false;
+            yellowCircleButton.Click += ColorCircleButton_Click;
             // 
             // blueCircleButton
             // 
@@ -238,6 +248,7 @@
             blueCircleButton.TabIndex = 1;
             blueCircleButton.Tag = "2";
             blueCircleButton.UseVisualStyleBackColor = false;
+            blueCircleButton.Click += ColorCircleButton_Click;
             // 
             // mastermindOutputPanel
             // 
