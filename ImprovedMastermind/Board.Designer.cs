@@ -339,6 +339,7 @@
             helpButton.TabIndex = 9;
             helpButton.Text = "Help Menu";
             helpButton.UseVisualStyleBackColor = false;
+            helpButton.Click += helpButton_Click;
             // 
             // Board
             // 
