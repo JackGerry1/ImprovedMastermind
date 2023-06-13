@@ -261,6 +261,7 @@
             mastermindOutputPanel.Padding = new Padding(2);
             mastermindOutputPanel.Size = new Size(596, 627);
             mastermindOutputPanel.TabIndex = 1;
+            mastermindOutputPanel.Paint += mastermindOutputPanel_Paint;
             // 
             // submitedLabel
             // 

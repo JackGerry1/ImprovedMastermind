@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace ImprovedMastermind
 {
@@ -18,8 +19,10 @@ namespace ImprovedMastermind
         private SolidBrush outputBrush = new(Color.Gray);
         private readonly SolidBrush grayBrush = new(Color.Gray);
         private int[] userPegs; // Add userPegs array
+        private int[,] submittedPegStore;
         private int userPegsArrayCounter = 0; // Add userPegsArrayCounter array
-        private int maxGuessLength = 4;
+        private int maxGuessLength;
+
 
         public Board()
         {
@@ -28,6 +31,9 @@ namespace ImprovedMastermind
             // Assign codeLength and attemptsLeft, in this case 4 long secret code and 10 attemptsLeft 
             model = new MastermindGame(4, 10);
             userPegs = new int[4]; // Initialize userPegs array
+            submittedPegStore = new int[4, 10];
+            maxGuessLength = model.CodeLength;
+
         }
 
         private void secretPanel_Paint(object sender, PaintEventArgs e)
@@ -147,7 +153,43 @@ namespace ImprovedMastermind
             InheritedHelpMenu inheritedHelpMenu = new();
             inheritedHelpMenu.Show();
         }
-        /* TODO LIST
+
+        private void mastermindOutputPanel_Paint(object sender, PaintEventArgs pegs)
+        {
+            // Draw a border around the mastermindOutputPanel control
+            ControlPaint.DrawBorder(pegs.Graphics, mastermindOutputPanel.ClientRectangle, Color.White, ButtonBorderStyle.Solid);
+
+            // Draw the clue pegs
+            Graphics cluePegGraphics = pegs.Graphics;
+            int x = 10;
+            int y = 50;
+            int peg;
+            Pen whitePen = new Pen(Color.White);
+            cluePegGraphics.DrawRectangle(whitePen, 5, 40, 50, 565);
+
+            for (int i = 0; i < model.AttemptsLeft; i++)
+            {
+                model.DrawCluePegs(cluePegGraphics, x, y, model.CodeLength / 2, i);
+                y += 10;
+                x = 10;
+                model.DrawCluePegs(cluePegGraphics, x, y, model.CodeLength / 2, i);
+                x = 10;
+                y += 25;
+            }
+
+            // Draw the current user inputs and draw the rows and columns for the submited pegs.
+            Graphics submitedPegsGraphics = pegs.Graphics;
+            y = 45;
+            x = 65;
+            int startX = 65;
+            int startY = 45;
+
+            model.DrawSubmittedPegs(submitedPegsGraphics, startX, startY, model.AttemptsLeft, model.CodeLength, submittedPegStore, grayBrush, model.GetUserPegColorBrush);
+        }
+    }
+}
+
+/* TODO LIST
 
 1. CREATE MASTERMIND OUTPUT, SO DISPLAY GRAY PEGS AND CLUE PEGS
 2. TAKE USERS PEGS AND DISPLAY THEM CORRECTLY ON THE MASTERMIND OUTPUT PANEL
@@ -158,6 +200,4 @@ namespace ImprovedMastermind
 7. ADD HELP MENUS FROM THE OLD GAME
 
 */
-        // Add event handlers for submitting guesses and updating the UI accordingly.
-    }
-}
+// Add event handlers for submitting guesses and updating the UI accordingly.
