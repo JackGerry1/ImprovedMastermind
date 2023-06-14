@@ -14,6 +14,7 @@ namespace ImprovedMastermind
     public partial class Board : Form
     {
         private MastermindGame model;
+        private GameController game;
 
         // Move the brush declarations to the view class.
         private SolidBrush outputBrush = new(Color.Gray);
@@ -22,6 +23,8 @@ namespace ImprovedMastermind
         private int[,] submittedPegStore;
         private int userPegsArrayCounter = 0; // Add userPegsArrayCounter array
         private int maxGuessLength;
+        private int[] submittedPegs;
+        private int guessRowPositionTracker;
 
 
         public Board()
@@ -30,9 +33,13 @@ namespace ImprovedMastermind
 
             // Assign codeLength and attemptsLeft, in this case 4 long secret code and 10 attemptsLeft 
             model = new MastermindGame(4, 10);
-            userPegs = new int[4]; // Initialize userPegs array
-            submittedPegStore = new int[4, 10];
+            game = new GameController(4, 10);
+            userPegs = new int[model.CodeLength]; // Initialize userPegs array
+            submittedPegs = new int[model.CodeLength];
+            submittedPegStore = new int[model.CodeLength, model.AttemptsLeft];
             maxGuessLength = model.CodeLength;
+            submittedPegs = new int[model.CodeLength];
+            guessRowPositionTracker = model.AttemptsLeft - 1;
 
         }
 
@@ -102,7 +109,6 @@ namespace ImprovedMastermind
             Graphics cluePegGraphics = pegs.Graphics;
             int x = 10;
             int y = 50;
-            int peg;
             Pen whitePen = new Pen(Color.White);
             cluePegGraphics.DrawRectangle(whitePen, 5, 40, 50, 565);
 
@@ -128,22 +134,21 @@ namespace ImprovedMastermind
 
         private void ColorCircleButton_Click(object sender, EventArgs e)
         {
-            if (userPegsArrayCounter >= maxGuessLength)
+            if (userPegsArrayCounter < model.CodeLength)
             {
-                // Display a message box informing the user that the guess row is full
-                MessageBox.Show("The guess row is full. Please submit your guess or clear and re-enter.", "Guess Row Full", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                Button colorButton = (Button)sender;
+                int colorValue = Convert.ToInt32(colorButton.Tag);
+
+                model.AddUserPeg(userPegs, colorValue);
+                submittedPegs[userPegsArrayCounter] = colorValue;
+
+                // Increment the counter for user pegs array
+                userPegsArrayCounter++;
+
+                userInputPanel.Refresh();
             }
 
-            Button colorButton = (Button)sender;
-            int colorValue = Convert.ToInt32(colorButton.Tag);
 
-            model.AddUserPeg(userPegs, colorValue);
-
-            // Increment the counter for user pegs array
-            userPegsArrayCounter++;
-
-            userInputPanel.Refresh();
         }
 
         private void clearButton_Click(object sender, EventArgs e)
@@ -180,6 +185,25 @@ namespace ImprovedMastermind
                 userInputPanel.Refresh();
             }
         }
+        private void submitButton_Click(object sender, EventArgs e)
+        {
+            if (userPegsArrayCounter == model.CodeLength)
+            {
+                model.CheckPegs(userPegs, submittedPegs, submittedPegStore);
+                userPegsArrayCounter = 0;
+                mastermindOutputPanel.Refresh(); // Refresh the mastermindOutputPanel
+                userInputPanel.Refresh(); // Refresh the userInputPanel
+                game.CountDown();
+            }
+            else
+            {
+                string title = "Submit Button Error";
+                string message = "Please fill the entire row before submitting your guess";
+
+                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
 
         private void helpButton_Click(object sender, EventArgs e)
         {

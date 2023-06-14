@@ -170,6 +170,7 @@
             submitButton.TabIndex = 10;
             submitButton.Text = "Submit Guess";
             submitButton.UseVisualStyleBackColor = false;
+            submitButton.Click += submitButton_Click;
             // 
             // clearAllButton
             // 

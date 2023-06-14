@@ -17,18 +17,20 @@ namespace ImprovedMastermind
         private readonly SolidBrush blueBrush = new SolidBrush(Color.DodgerBlue);
         private readonly SolidBrush pinkBrush = new SolidBrush(Color.Fuchsia);
         private readonly SolidBrush greenBrush = new SolidBrush(Color.Lime);
-        private readonly SolidBrush purpleBrush = new SolidBrush(Color.Purple);
+        private readonly SolidBrush purpleBrush = new SolidBrush(Color.Indigo);
         private readonly SolidBrush blackBrush = new SolidBrush(Color.Black);
         private readonly SolidBrush whiteBrush = new SolidBrush(Color.White);
         private Random randomGenerator;
 
-        public int AttemptsLeft { get; private set; }
+        public int AttemptsLeft { get; set; }
+        public int GuessRowPositionTracker { get; set; }
         public int CodeLength { get { return codeLength; } }
 
         public MastermindGame(int codeLength, int maxAttempts)
         {
             this.codeLength = codeLength;
             AttemptsLeft = maxAttempts;
+            GuessRowPositionTracker = maxAttempts - 1;
             secretCode = new int[codeLength];
             randomGenerator = new Random();
             cluePegStore = new string[codeLength, maxAttempts];
@@ -41,7 +43,7 @@ namespace ImprovedMastermind
             return winstate;
         }
 
-        public void SubmitGuess(int[] guess)
+        public void SubmitGuess(int[] submittedPegs)
         {
             // Implement logic to compare guess with secret code and update winstate and AttemptsLeft accordingly.
         }
@@ -89,20 +91,22 @@ namespace ImprovedMastermind
 
         public void AddUserPeg(int[] userPegs, int pegValue)
         {
-            int index = Array.IndexOf(userPegs, 0);
-            if (index != -1)
+            int indexUser = Array.IndexOf(userPegs, 0);
+  
+            if (indexUser != -1)
             {
-                userPegs[index] = pegValue;
+                userPegs[indexUser] = pegValue;
             }
         }
 
         public void DrawCluePegs(Graphics graphics, int startX, int startY, int endIndex, int rowIndex)
         {
-            
+
             for (int i = 0; i < endIndex; i++)
             {
                 switch (cluePegStore[i, rowIndex])
                 {
+
                     case "Red":
                         graphics.FillEllipse(redBrush, startX, startY, 10, 10);
                         break;
@@ -118,7 +122,7 @@ namespace ImprovedMastermind
                 startX += 10;
             }
         }
-        
+
         public void DrawSubmittedPegs(Graphics graphics, int startX, int startY, int attemptsLeft, int codeLength, int[,] submittedPegStore, SolidBrush grayBrush, Func<int, Brush> getUserPegColorBrush)
         {
             for (int i = 0; i < attemptsLeft; i++)
@@ -134,6 +138,30 @@ namespace ImprovedMastermind
                 }
                 startX = 65;
                 startY += 35;
+            }
+        }
+        public void CheckPegs(int[] userPegs, int[] submittedPegs, int[,] submittedPegStore)
+        {
+            bool[] redVisited = new bool[CodeLength];
+            bool[] whiteVisited = new bool[CodeLength];
+            int redHits = 0;
+            int whiteHits = 0;
+
+            for (int i = 0; i < CodeLength; i++)
+            {
+                userPegs[i] = 0;
+                submittedPegStore[i, GuessRowPositionTracker] = submittedPegs[i];
+            }
+
+            if (redHits == CodeLength)
+            {
+                string title = "Submit Button Error";
+                string message = "Please fill the entire row before submitting your guess";
+                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                GuessRowPositionTracker--;
             }
         }
     }
