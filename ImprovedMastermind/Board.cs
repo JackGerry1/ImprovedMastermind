@@ -93,6 +93,39 @@ namespace ImprovedMastermind
             }
         }
 
+        private void mastermindOutputPanel_Paint(object sender, PaintEventArgs pegs)
+        {
+            // Draw a border around the mastermindOutputPanel control
+            ControlPaint.DrawBorder(pegs.Graphics, mastermindOutputPanel.ClientRectangle, Color.White, ButtonBorderStyle.Solid);
+
+            // Draw the clue pegs
+            Graphics cluePegGraphics = pegs.Graphics;
+            int x = 10;
+            int y = 50;
+            int peg;
+            Pen whitePen = new Pen(Color.White);
+            cluePegGraphics.DrawRectangle(whitePen, 5, 40, 50, 565);
+
+            for (int i = 0; i < model.AttemptsLeft; i++)
+            {
+                model.DrawCluePegs(cluePegGraphics, x, y, model.CodeLength / 2, i);
+                y += 10;
+                x = 10;
+                model.DrawCluePegs(cluePegGraphics, x, y, model.CodeLength / 2, i);
+                x = 10;
+                y += 25;
+            }
+
+            // Draw the current user inputs and draw the rows and columns for the submited pegs.
+            Graphics submitedPegsGraphics = pegs.Graphics;
+            y = 45;
+            x = 65;
+            int startX = 65;
+            int startY = 45;
+
+            model.DrawSubmittedPegs(submitedPegsGraphics, startX, startY, model.AttemptsLeft, model.CodeLength, submittedPegStore, grayBrush, model.GetUserPegColorBrush);
+        }
+
         private void ColorCircleButton_Click(object sender, EventArgs e)
         {
             if (userPegsArrayCounter >= maxGuessLength)
@@ -152,39 +185,6 @@ namespace ImprovedMastermind
         {
             InheritedHelpMenu inheritedHelpMenu = new();
             inheritedHelpMenu.Show();
-        }
-
-        private void mastermindOutputPanel_Paint(object sender, PaintEventArgs pegs)
-        {
-            // Draw a border around the mastermindOutputPanel control
-            ControlPaint.DrawBorder(pegs.Graphics, mastermindOutputPanel.ClientRectangle, Color.White, ButtonBorderStyle.Solid);
-
-            // Draw the clue pegs
-            Graphics cluePegGraphics = pegs.Graphics;
-            int x = 10;
-            int y = 50;
-            int peg;
-            Pen whitePen = new Pen(Color.White);
-            cluePegGraphics.DrawRectangle(whitePen, 5, 40, 50, 565);
-
-            for (int i = 0; i < model.AttemptsLeft; i++)
-            {
-                model.DrawCluePegs(cluePegGraphics, x, y, model.CodeLength / 2, i);
-                y += 10;
-                x = 10;
-                model.DrawCluePegs(cluePegGraphics, x, y, model.CodeLength / 2, i);
-                x = 10;
-                y += 25;
-            }
-
-            // Draw the current user inputs and draw the rows and columns for the submited pegs.
-            Graphics submitedPegsGraphics = pegs.Graphics;
-            y = 45;
-            x = 65;
-            int startX = 65;
-            int startY = 45;
-
-            model.DrawSubmittedPegs(submitedPegsGraphics, startX, startY, model.AttemptsLeft, model.CodeLength, submittedPegStore, grayBrush, model.GetUserPegColorBrush);
         }
     }
 }
