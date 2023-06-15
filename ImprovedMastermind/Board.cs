@@ -47,19 +47,22 @@ namespace ImprovedMastermind
         {
             // Retrieve game state from the model via the controller.
             bool winstate = model.CheckWinState();
-            int attemptsLeft = model.AttemptsLeft;
+            int attemptsLeft = game.GetAttemptsLeft();
 
             ControlPaint.DrawBorder(e.Graphics, secretPanel.ClientRectangle, Color.White, ButtonBorderStyle.Solid);
 
             int xcoords = 60;
             Graphics secretCodeGraphics = e.Graphics;
-
             for (int i = 0; i < model.CodeLength; i++)
             {
                 if (winstate || attemptsLeft == 0)
                 {
                     outputBrush = model.GetColorBrush(i);
                 }
+
+
+                ////UNCOMMENT THIS IF YOU WANT TO SEE THE SECRET CODE BEFORE THE GAME HAS FINISHED.
+                //outputBrush = model.GetColorBrush(i);
 
                 secretCodeGraphics.FillEllipse(outputBrush, xcoords, 15, 30, 30);
                 outputBrush = grayBrush;
@@ -114,11 +117,9 @@ namespace ImprovedMastermind
 
             for (int i = 0; i < model.AttemptsLeft; i++)
             {
-                model.DrawCluePegs(cluePegGraphics, x, y, model.CodeLength / 2, i);
+                model.DrawCluePegs(cluePegGraphics, x, y, model.CodeLength, i);
+                x = 10;
                 y += 10;
-                x = 10;
-                model.DrawCluePegs(cluePegGraphics, x, y, model.CodeLength / 2, i);
-                x = 10;
                 y += 25;
             }
 
@@ -189,11 +190,13 @@ namespace ImprovedMastermind
         {
             if (userPegsArrayCounter == model.CodeLength)
             {
-                model.CheckPegs(userPegs, submittedPegs, submittedPegStore);
                 userPegsArrayCounter = 0;
+                model.UpdateMastermindPanel(userPegs, submittedPegs, submittedPegStore);
+                game.CountDown(); 
                 mastermindOutputPanel.Refresh(); // Refresh the mastermindOutputPanel
                 userInputPanel.Refresh(); // Refresh the userInputPanel
-                game.CountDown();
+                secretPanel.Refresh();
+                
             }
             else
             {
