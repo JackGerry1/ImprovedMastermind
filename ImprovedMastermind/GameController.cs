@@ -17,22 +17,23 @@ namespace ImprovedMastermind
         {
             model = new MastermindGame(codeLength, maxAttempts);
         }
-
-        public void SubmitGuess(int[] guess)
+        public int GetAttemptsLeft()
         {
-            model.SubmitGuess(guess);
-            // Update the view based on the game state.
+            return model.AttemptsLeft;
         }
+
         public void CountDown()
         {
-            int attempts = model.AttemptsLeft;
-            attempts--;
-            model.AttemptsLeft = attempts; // Update the AttemptsLeft 
-
-            if (attempts == 0)
+            model.AttemptsLeft--;
+            if (model.AttemptsLeft == 0)
             {
                 MessageBox.Show("Game Over, You Lose", "Lose Screen", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            
+        }
+        public void Win()
+        {
+            MessageBox.Show("Game Over, You Win", "Win Screen", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 
