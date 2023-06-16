@@ -22,25 +22,24 @@ namespace ImprovedMastermind
         private int[] userPegs; // Add userPegs array
         private int[,] submittedPegStore;
         private int userPegsArrayCounter = 0; // Add userPegsArrayCounter array
-        private int maxGuessLength;
         private int[] submittedPegs;
-        private int guessRowPositionTracker;
-
+        private bool isWinScreenDisplayed = false;
+        private int codeLength;
+        private int attemptsLeft;
 
         public Board()
         {
             InitializeComponent();
-
+            codeLength = DifficultyMenu.difficultyMenu.codeLength;
+            attemptsLeft = DifficultyMenu.difficultyMenu.guessNumber;
             // Assign codeLength and attemptsLeft, in this case 4 long secret code and 10 attemptsLeft 
-            model = new MastermindGame(4, 10);
-            game = new GameController(4, 10);
+            model = new MastermindGame(codeLength, attemptsLeft);
+            game = new GameController(codeLength, attemptsLeft);
             userPegs = new int[model.CodeLength]; // Initialize userPegs array
             submittedPegs = new int[model.CodeLength];
             submittedPegStore = new int[model.CodeLength, model.AttemptsLeft];
-            maxGuessLength = model.CodeLength;
             submittedPegs = new int[model.CodeLength];
-            guessRowPositionTracker = model.AttemptsLeft - 1;
-
+            
         }
 
         private void secretPanel_Paint(object sender, PaintEventArgs e)
@@ -58,8 +57,9 @@ namespace ImprovedMastermind
                 if (winstate || attemptsLeft == 0)
                 {
                     outputBrush = model.GetColorBrush(i);
+                    DisableElements();
+                    BoardHide();
                 }
-
 
                 ////UNCOMMENT THIS IF YOU WANT TO SEE THE SECRET CODE BEFORE THE GAME HAS FINISHED.
                 //outputBrush = model.GetColorBrush(i);
@@ -192,11 +192,11 @@ namespace ImprovedMastermind
             {
                 userPegsArrayCounter = 0;
                 model.UpdateMastermindPanel(userPegs, submittedPegs, submittedPegStore);
-                game.CountDown(); 
+                game.CountDown();
                 mastermindOutputPanel.Refresh(); // Refresh the mastermindOutputPanel
                 userInputPanel.Refresh(); // Refresh the userInputPanel
                 secretPanel.Refresh();
-                
+
             }
             else
             {
@@ -206,12 +206,54 @@ namespace ImprovedMastermind
                 MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
-
         private void helpButton_Click(object sender, EventArgs e)
         {
             InheritedHelpMenu inheritedHelpMenu = new();
             inheritedHelpMenu.Show();
+            
+        }
+        private void DisableElements()
+        {
+            submitButton.Enabled = false;
+            clearAllButton.Enabled = false;
+            redCircleButton.Enabled = false;
+            blueCircleButton.Enabled = false;
+            yellowCircleButton.Enabled = false;
+            greenCircleButton.Enabled = false;
+            pinkCircleButton.Enabled = false;
+            purpleCircleButton.Enabled = false;
+            whiteCircleButton.Enabled = false;
+            blackCircleButton.Enabled = false;
+            helpButton.Enabled = false;
+            quitButton.Enabled = false;
+            clearButton.Enabled = false;
+        }
+        private async void BoardHide()
+        {
+            await Task.Delay(3000);
+            Hide();
+        }
+
+        public async Task Lose()
+        {
+            if (!isWinScreenDisplayed && !await Win())
+            {
+                await Task.Delay(3000);
+                LoseScreen loseScreen = new LoseScreen();
+                loseScreen.Show();
+            }
+        }
+
+        public async Task<bool> Win()
+        {
+            if (!isWinScreenDisplayed)
+            {
+                isWinScreenDisplayed = true; // Move the flag setting here
+                await Task.Delay(3000);
+                WinScreen winScreen = new WinScreen();
+                winScreen.Show();
+            }
+            return isWinScreenDisplayed;
         }
     }
 }

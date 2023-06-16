@@ -19,8 +19,8 @@ namespace ImprovedMastermind
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            Board board = new();
-            board.Show();
+            DifficultyMenu difficultyMenu = new();
+            difficultyMenu.Show();
             Hide();
         }
 

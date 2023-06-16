@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Drawing;
 using System.Reflection;
 
@@ -24,6 +25,7 @@ namespace ImprovedMastermind
         private Random randomGenerator;
 
         public int AttemptsLeft { get; set; }
+        public int AttemptsRight { get; set; }  
         public int GuessRowPositionTracker { get; set; }
         public int CodeLength { get { return codeLength; } }
 
@@ -31,6 +33,7 @@ namespace ImprovedMastermind
         {
             this.codeLength = codeLength;
             AttemptsLeft = maxAttempts;
+            AttemptsRight = maxAttempts;
             GuessRowPositionTracker = maxAttempts - 1;
             secretCode = new int[codeLength];
             randomGenerator = new();
@@ -100,7 +103,7 @@ namespace ImprovedMastermind
         {
             int rowCount = 0; // Keep track of the current row count
             int columnCount = 0; // Keep track of the current column count
-
+            
             for (int i = 0; i < endIndex; i++)
             {
                 // Calculate the position for the current clue peg
@@ -137,7 +140,7 @@ namespace ImprovedMastermind
                 }
 
                 // Check if the maximum number of columns is reached
-                if (columnCount >= 2)
+                if (columnCount >= codeLength / 2)
                 {
                     // Reset the column count and increment the row count
                     columnCount = 0;
@@ -242,9 +245,9 @@ namespace ImprovedMastermind
             if (redHits == CodeLength)
             {
                 winstate = true;
-                GameController game = new(codeLength, AttemptsLeft);
-                game.Win();
-                
+                Board board = new Board();
+                _ = board.Win();
+
             }
             else
             {

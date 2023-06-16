@@ -16,24 +16,20 @@ namespace ImprovedMastermind
         public GameController(int codeLength, int maxAttempts)
         {
             model = new MastermindGame(codeLength, maxAttempts);
+            
         }
         public int GetAttemptsLeft()
         {
             return model.AttemptsLeft;
         }
-
         public void CountDown()
         {
-            model.AttemptsLeft--;
-            if (model.AttemptsLeft == 0)
+            Board board = new();
+            int attempts = model.AttemptsRight--;
+            if (!model.CheckWinState() && attempts == 0)
             {
-                MessageBox.Show("Game Over, You Lose", "Lose Screen", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                _ = board.Lose();
             }
-            
-        }
-        public void Win()
-        {
-            MessageBox.Show("Game Over, You Win", "Win Screen", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 
