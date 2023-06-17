@@ -52,6 +52,8 @@ namespace ImprovedMastermind
 
             int xcoords = 60;
             Graphics secretCodeGraphics = e.Graphics;
+            Console.WriteLine("secret attempts " + attemptsLeft);
+            Console.WriteLine("secret " + winstate);
             for (int i = 0; i < model.CodeLength; i++)
             {
                 if (winstate || attemptsLeft == 0)
@@ -61,8 +63,8 @@ namespace ImprovedMastermind
                     BoardHide();
                 }
 
-                ////UNCOMMENT THIS IF YOU WANT TO SEE THE SECRET CODE BEFORE THE GAME HAS FINISHED.
-                //outputBrush = model.GetColorBrush(i);
+                //UNCOMMENT THIS IF YOU WANT TO SEE THE SECRET CODE BEFORE THE GAME HAS FINISHED.
+                outputBrush = model.GetColorBrush(i);
 
                 secretCodeGraphics.FillEllipse(outputBrush, xcoords, 15, 30, 30);
                 outputBrush = grayBrush;
@@ -197,12 +199,18 @@ namespace ImprovedMastermind
                 userInputPanel.Refresh(); // Refresh the userInputPanel
                 secretPanel.Refresh();
 
+                // Check if the game is won
+                bool isGameWon = model.CheckWinState();
+                if (isGameWon)
+                {
+                    // Call the Win method to display the win screen
+                    Win().ConfigureAwait(false);
+                }
             }
             else
             {
                 string title = "Submit Button Error";
                 string message = "Please fill the entire row before submitting your guess";
-
                 MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -236,7 +244,7 @@ namespace ImprovedMastermind
 
         public async Task Lose()
         {
-            if (!isWinScreenDisplayed && !await Win())
+            if (!isWinScreenDisplayed && !model.CheckWinState())
             {
                 await Task.Delay(3000);
                 LoseScreen loseScreen = new LoseScreen();
@@ -246,9 +254,9 @@ namespace ImprovedMastermind
 
         public async Task<bool> Win()
         {
-            if (!isWinScreenDisplayed)
+            if (!isWinScreenDisplayed && model.CheckWinState())
             {
-                isWinScreenDisplayed = true; // Move the flag setting here
+                isWinScreenDisplayed = true;
                 await Task.Delay(3000);
                 WinScreen winScreen = new WinScreen();
                 winScreen.Show();
