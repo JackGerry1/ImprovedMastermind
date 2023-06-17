@@ -39,7 +39,7 @@ namespace ImprovedMastermind
             submittedPegs = new int[model.CodeLength];
             submittedPegStore = new int[model.CodeLength, model.AttemptsLeft];
             submittedPegs = new int[model.CodeLength];
-            
+
         }
 
         private void secretPanel_Paint(object sender, PaintEventArgs e)
@@ -63,8 +63,8 @@ namespace ImprovedMastermind
                     BoardHide();
                 }
 
-                //UNCOMMENT THIS IF YOU WANT TO SEE THE SECRET CODE BEFORE THE GAME HAS FINISHED.
-                outputBrush = model.GetColorBrush(i);
+                ////UNCOMMENT THIS IF YOU WANT TO SEE THE SECRET CODE BEFORE THE GAME HAS FINISHED.
+                //outputBrush = model.GetColorBrush(i);
 
                 secretCodeGraphics.FillEllipse(outputBrush, xcoords, 15, 30, 30);
                 outputBrush = grayBrush;
@@ -188,7 +188,7 @@ namespace ImprovedMastermind
                 userInputPanel.Refresh();
             }
         }
-        private void submitButton_Click(object sender, EventArgs e)
+        private async void submitButton_Click(object sender, EventArgs e)
         {
             if (userPegsArrayCounter == model.CodeLength)
             {
@@ -201,10 +201,17 @@ namespace ImprovedMastermind
 
                 // Check if the game is won
                 bool isGameWon = model.CheckWinState();
+                bool isLastAttempt = game.GetAttemptsLeft() == 0;
+
                 if (isGameWon)
                 {
                     // Call the Win method to display the win screen
-                    Win().ConfigureAwait(false);
+                    await Win();
+                }
+                else if (!isGameWon && isLastAttempt)
+                {
+                    // Call the Lose method to display the lose screen
+                    await Lose();
                 }
             }
             else
@@ -214,11 +221,13 @@ namespace ImprovedMastermind
                 MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+
         private void helpButton_Click(object sender, EventArgs e)
         {
             InheritedHelpMenu inheritedHelpMenu = new();
             inheritedHelpMenu.Show();
-            
+
         }
         private void DisableElements()
         {
@@ -244,11 +253,12 @@ namespace ImprovedMastermind
 
         public async Task Lose()
         {
-            if (!isWinScreenDisplayed && !model.CheckWinState())
+            if (!isWinScreenDisplayed && !model.CheckWinState() && game.GetAttemptsLeft() == 0)
             {
                 await Task.Delay(3000);
                 LoseScreen loseScreen = new LoseScreen();
                 loseScreen.Show();
+                isWinScreenDisplayed = true; // Set the flag to prevent the win screen from being displayed
             }
         }
 
@@ -256,13 +266,14 @@ namespace ImprovedMastermind
         {
             if (!isWinScreenDisplayed && model.CheckWinState())
             {
-                isWinScreenDisplayed = true;
                 await Task.Delay(3000);
                 WinScreen winScreen = new WinScreen();
                 winScreen.Show();
+                isWinScreenDisplayed = true; // Set the flag to prevent the win screen from being displayed again
             }
             return isWinScreenDisplayed;
         }
+
     }
 }
 
