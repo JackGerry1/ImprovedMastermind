@@ -45,7 +45,6 @@ namespace ImprovedMastermind
 
         public bool CheckWinState()
         {
-            Console.WriteLine("Check Win state " + winstate);
             return winstate;
         }
 
@@ -252,7 +251,6 @@ namespace ImprovedMastermind
             }
             else
             {
-                Console.WriteLine("Guess Row " + GuessRowPositionTracker);
                 GuessRowPositionTracker--;
             }
         }

@@ -52,8 +52,6 @@ namespace ImprovedMastermind
 
             int xcoords = 60;
             Graphics secretCodeGraphics = e.Graphics;
-            Console.WriteLine("secret attempts " + attemptsLeft);
-            Console.WriteLine("secret " + winstate);
             for (int i = 0; i < model.CodeLength; i++)
             {
                 if (winstate || attemptsLeft == 0)
@@ -201,14 +199,13 @@ namespace ImprovedMastermind
 
                 // Check if the game is won
                 bool isGameWon = model.CheckWinState();
-                bool isLastAttempt = game.GetAttemptsLeft() == 0;
 
                 if (isGameWon)
                 {
                     // Call the Win method to display the win screen
                     await Win();
                 }
-                else if (!isGameWon && isLastAttempt)
+                else if (!isGameWon)
                 {
                     // Call the Lose method to display the lose screen
                     await Lose();
