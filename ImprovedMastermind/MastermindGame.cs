@@ -25,7 +25,7 @@ namespace ImprovedMastermind
         private Random randomGenerator;
 
         public int AttemptsLeft { get; set; }
-        public int AttemptsRight { get; set; }  
+        public int GuessCount { get; set; }  
         public int GuessRowPositionTracker { get; set; }
         public int CodeLength { get { return codeLength; } }
 
@@ -33,7 +33,7 @@ namespace ImprovedMastermind
         {
             this.codeLength = codeLength;
             AttemptsLeft = maxAttempts;
-            AttemptsRight = maxAttempts;
+            GuessCount = maxAttempts;
             GuessRowPositionTracker = maxAttempts - 1;
             secretCode = new int[codeLength];
             randomGenerator = new();

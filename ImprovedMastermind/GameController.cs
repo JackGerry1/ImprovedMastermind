@@ -20,13 +20,13 @@ namespace ImprovedMastermind
         }
         public int GetAttemptsLeft()
         {
-            return model.AttemptsRight;
+            return model.GuessCount;
         }
         public void CountDown()
         {
             Board board = new();
-            model.AttemptsRight--;
-            if (!model.CheckWinState() && model.AttemptsRight == 0)
+            model.GuessCount--;
+            if (!model.CheckWinState() && model.GuessCount == 0)
             {
                 _ = board.Lose();
             }
