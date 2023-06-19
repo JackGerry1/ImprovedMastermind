@@ -60,11 +60,11 @@ Before getting started, make sure you have the following prerequisites installed
 1. Clone the repository to your local machine using the following command:
 
     ```shell
-    git clone https://github.com/your-username/project-repo.git
+    git clone https://github.com/JackGerry1/ImprovedMastermind
     ```
 2. Open Visual Studio.
 
-3. In Visual Studio, go to **File > Open > Project/Solution** and navigate to the cloned repository.
+3. In Visual Studiohttps://github.com/JackGerry1/ImprovedMastermind, go to **File > Open > Project/Solution** and navigate to the cloned repository.
 
 4. Select the project file (usually ending with .csproj extension) and click **Open**.
 
