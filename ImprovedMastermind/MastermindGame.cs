@@ -29,6 +29,11 @@ namespace ImprovedMastermind
         public int GuessRowPositionTracker { get; set; }
         public int CodeLength { get { return codeLength; } }
 
+        /// <summary>
+        /// Initializes a new instance of the MastermindGame class with the specified codeLength and maxAttempts.
+        /// </summary>
+        /// <param name="codeLength">The length of the secret code.</param>
+        /// <param name="maxAttempts">The maximum number of attempts allowed.</param>
         public MastermindGame(int codeLength, int maxAttempts)
         {
             this.codeLength = codeLength;
@@ -36,18 +41,24 @@ namespace ImprovedMastermind
             GuessCount = maxAttempts;
             GuessRowPositionTracker = maxAttempts - 1;
             secretCode = new int[codeLength];
-            randomGenerator = new();
+            randomGenerator = new Random();
             cluePegStore = new List<string>[codeLength, maxAttempts];
             cluePegs = new string[codeLength];
 
             GenerateSecretCode();
         }
-
+        /// <summary>
+        /// Checks the current win state of the game.
+        /// </summary>
+        /// <returns>True if the game is in a win state, otherwise false.</returns>
         public bool CheckWinState()
         {
             return winstate;
         }
 
+        /// <summary>
+        /// Generates a secret code by assigning random values to each element of the secretCode array.
+        /// </summary>
         private void GenerateSecretCode()
         {
             for (int i = 0; i < secretCode.Length; i++)
@@ -56,6 +67,11 @@ namespace ImprovedMastermind
             }
         }
 
+        /// <summary>
+        /// Gets the color brush corresponding to the code value at the specified index in the secretCode.
+        /// </summary>
+        /// <param name="index">The index of the secretCode array.</param>
+        /// <returns>The color brush associated with the code value.</returns>
         public SolidBrush GetColorBrush(int index)
         {
             int codeValue = secretCode[index];
@@ -73,6 +89,11 @@ namespace ImprovedMastermind
             };
         }
 
+        /// <summary>
+        /// Gets the color brush corresponding to the user peg value.
+        /// </summary>
+        /// <param name="pegValue">The value of the user peg.</param>
+        /// <returns>The color brush associated with the user peg value.</returns>
         public SolidBrush GetUserPegColorBrush(int pegValue)
         {
             return pegValue switch
@@ -89,6 +110,11 @@ namespace ImprovedMastermind
             };
         }
 
+        /// <summary>
+        /// Adds a user peg to the userPegs array at the first available index.
+        /// </summary>
+        /// <param name="userPegs">The array of user pegs.</param>
+        /// <param name="pegValue">The value of the peg to be added.</param>
         public void AddUserPeg(int[] userPegs, int pegValue)
         {
             int indexUser = Array.IndexOf(userPegs, 0);
@@ -98,7 +124,15 @@ namespace ImprovedMastermind
                 userPegs[indexUser] = pegValue;
             }
         }
-
+        
+        /// <summary>
+        /// Draws the clue pegs on the graphics object based on the cluePegStore array.
+        /// </summary>
+        /// <param name="graphics">The graphics object on which to draw the clue pegs.</param>
+        /// <param name="startX">The starting X-coordinate for drawing the clue pegs.</param>
+        /// <param name="startY">The starting Y-coordinate for drawing the clue pegs.</param>
+        /// <param name="endIndex">The end index of the clue pegs to be drawn.</param>
+        /// <param name="rowIndex">The index of the current row.</param>
         public void DrawCluePegs(Graphics graphics, int startX, int startY, int endIndex, int rowIndex)
         {
             int rowCount = 0; // Keep track of the current row count
@@ -149,7 +183,17 @@ namespace ImprovedMastermind
             }
         }
 
-
+        /// <summary>
+        /// Draws the submitted pegs on the graphics object based on the submittedPegStore array.
+        /// </summary>
+        /// <param name="graphics">The graphics object on which to draw the submitted pegs.</param>
+        /// <param name="startX">The starting X-coordinate for drawing the submitted pegs.</param>
+        /// <param name="startY">The starting Y-coordinate for drawing the submitted pegs.</param>
+        /// <param name="attemptsLeft">The number of attempts left.</param>
+        /// <param name="codeLength">The length of the code.</param>
+        /// <param name="submittedPegStore">The array storing the submitted pegs.</param>
+        /// <param name="grayBrush">The color brush for the gray peg.</param>
+        /// <param name="getUserPegColorBrush">A function to get the color brush for user pegs.</param>
         public void DrawSubmittedPegs(Graphics graphics, int startX, int startY, int attemptsLeft, int codeLength, int[,] submittedPegStore, SolidBrush grayBrush, Func<int, Brush> getUserPegColorBrush)
         {
             for (int i = 0; i < attemptsLeft; i++)
@@ -167,6 +211,12 @@ namespace ImprovedMastermind
                 startY += 35;
             }
         }
+        /// <summary>
+        /// Updates the mastermind panel by evaluating the submitted pegs and updating the clue pegs.
+        /// </summary>
+        /// <param name="userPegs">The array of user pegs.</param>
+        /// <param name="submittedPegs">The array of submitted pegs.</param>
+        /// <param name="submittedPegStore">The array storing the submitted pegs for each guess.</param>
         public void UpdateMastermindPanel(int[] userPegs, int[] submittedPegs, int[,] submittedPegStore)
         {
             bool[] redVisited = new bool[CodeLength];

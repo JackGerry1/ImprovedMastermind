@@ -15,33 +15,42 @@ namespace ImprovedMastermind
     {
         private MastermindGame model;
         private GameController game;
-
-        // Move the brush declarations to the view class.
         private SolidBrush outputBrush = new(Color.Gray);
         private readonly SolidBrush grayBrush = new(Color.Gray);
-        private int[] userPegs; // Add userPegs array
+        private int[] userPegs;
         private int[,] submittedPegStore;
-        private int userPegsArrayCounter = 0; // Add userPegsArrayCounter array
+        private int userPegsArrayCounter = 0;
         private int[] submittedPegs;
         private bool isWinScreenDisplayed = false;
         private int codeLength;
         private int attemptsLeft;
 
+        /// <summary>
+        /// Initializes a new instance of the Board class.
+        /// </summary>
         public Board()
         {
             InitializeComponent();
+
+            // Retrieve codeLength and attemptsLeft from the DifficultyMenu and assign them
             codeLength = DifficultyMenu.difficultyMenu.codeLength;
             attemptsLeft = DifficultyMenu.difficultyMenu.guessNumber;
-            // Assign codeLength and attemptsLeft, in this case 4 long secret code and 10 attemptsLeft 
+
+            // Create instances of the MastermindGame and GameController classes with the specified codeLength and attemptsLeft
             model = new MastermindGame(codeLength, attemptsLeft);
             game = new GameController(codeLength, attemptsLeft);
-            userPegs = new int[model.CodeLength]; // Initialize userPegs array
+
+            // Initialize the userPegs, submittedPegs, and submittedPegStore arrays with the appropriate sizes
+            userPegs = new int[model.CodeLength];
             submittedPegs = new int[model.CodeLength];
             submittedPegStore = new int[model.CodeLength, model.AttemptsLeft];
-            submittedPegs = new int[model.CodeLength];
-
         }
 
+        /// <summary>
+        /// Paints the secret panel by drawing the secret code circles based on the game state.
+        /// </summary>
+        /// <param name="sender">The sender object.</param>
+        /// <param name="e">The PaintEventArgs.</param>
         private void secretPanel_Paint(object sender, PaintEventArgs e)
         {
             // Retrieve game state from the model via the controller.
@@ -52,31 +61,30 @@ namespace ImprovedMastermind
 
             int xcoords = 60;
             Graphics secretCodeGraphics = e.Graphics;
+
+            // Loop through each position in the secret code
             for (int i = 0; i < model.CodeLength; i++)
             {
                 if (winstate || attemptsLeft == 0)
                 {
-                    outputBrush = model.GetColorBrush(i);
-                    DisableElements();
-                    BoardHide();
+                    outputBrush = model.GetColorBrush(i); // Get the brush color for the secret code
+                    DisableElements(); // Disable game elements
+                    BoardHide(); // Hide the board
                 }
 
                 ////UNCOMMENT THIS IF YOU WANT TO SEE THE SECRET CODE BEFORE THE GAME HAS FINISHED.
-                //outputBrush = model.GetColorBrush(i);
+                //outputBrush = model.GetColorBrush(i); // Get the brush color for the secret code
 
-                secretCodeGraphics.FillEllipse(outputBrush, xcoords, 15, 30, 30);
-                outputBrush = grayBrush;
+                secretCodeGraphics.FillEllipse(outputBrush, xcoords, 15, 30, 30); // Draw a filled ellipse representing the secret code
+                outputBrush = grayBrush; // Reset the brush color to gray for the next position
                 xcoords += 40;
             }
         }
-
-        // Quit Button
-        private void quitButton_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-
+        /// <summary>
+        /// Paints the user input panel by drawing the user pegs based on their values.
+        /// </summary>
+        /// <param name="sender">The sender object.</param>
+        /// <param name="e">The PaintEventArgs.</param>
         private void userInputPanel_Paint(object sender, PaintEventArgs e)
         {
             // Draw a rectangle border around the userInputPanel control
@@ -103,6 +111,12 @@ namespace ImprovedMastermind
             }
         }
 
+
+        /// <summary>
+        /// Paints the mastermind output panel by drawing clue pegs and submitted pegs.
+        /// </summary>
+        /// <param name="sender">The sender object.</param>
+        /// <param name="pegs">The PaintEventArgs.</param>
         private void mastermindOutputPanel_Paint(object sender, PaintEventArgs pegs)
         {
             // Draw a border around the mastermindOutputPanel control
@@ -117,22 +131,30 @@ namespace ImprovedMastermind
 
             for (int i = 0; i < model.AttemptsLeft; i++)
             {
+                // Draw the clue pegs for the current attempt
                 model.DrawCluePegs(cluePegGraphics, x, y, model.CodeLength, i);
+
+                // Reset the x and y coordinates for the next row of clue pegs
                 x = 10;
                 y += 10;
                 y += 25;
             }
 
-            // Draw the current user inputs and draw the rows and columns for the submited pegs.
-            Graphics submitedPegsGraphics = pegs.Graphics;
+            // Draw the current user inputs and draw the rows and columns for the submitted pegs.
+            Graphics submittedPegsGraphics = pegs.Graphics;
             y = 45;
             x = 65;
             int startX = 65;
             int startY = 45;
 
-            model.DrawSubmittedPegs(submitedPegsGraphics, startX, startY, model.AttemptsLeft, model.CodeLength, submittedPegStore, grayBrush, model.GetUserPegColorBrush);
+            // Draw the submitted pegs, including the current user inputs and the rows and columns for the submitted pegs
+            model.DrawSubmittedPegs(submittedPegsGraphics, startX, startY, model.AttemptsLeft, model.CodeLength, submittedPegStore, grayBrush, model.GetUserPegColorBrush);
         }
-
+        /// <summary>
+        /// Handles the event when a color circle button is clicked and updates the user's peg selection.
+        /// </summary>
+        /// <param name="sender">The sender object.</param>
+        /// <param name="e">The EventArgs.</param>
         private void ColorCircleButton_Click(object sender, EventArgs e)
         {
             if (userPegsArrayCounter < model.CodeLength)
@@ -148,10 +170,13 @@ namespace ImprovedMastermind
 
                 userInputPanel.Refresh();
             }
-
-
         }
 
+        /// <summary>
+        /// Handles the event when the clear button is clicked and removes the last user peg.
+        /// </summary>
+        /// <param name="sender">The sender object.</param>
+        /// <param name="e">The EventArgs.</param>
         private void clearButton_Click(object sender, EventArgs e)
         {
             if (userPegsArrayCounter == 0)
@@ -168,11 +193,16 @@ namespace ImprovedMastermind
             }
         }
 
+        /// <summary>
+        /// Handles the event when the clear all button is clicked and clears all user guesses.
+        /// </summary>
+        /// <param name="sender">The sender object.</param>
+        /// <param name="e">The EventArgs.</param>
         private void clearAllButton_Click(object sender, EventArgs e)
         {
             if (userPegsArrayCounter == 0)
             {
-                // Display a message box informing the user that there is nothing to clear
+                // Display a message box informing the user that there are no guesses to clear
                 MessageBox.Show("There are no guesses to clear.", "Empty Guess Row", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
@@ -186,6 +216,12 @@ namespace ImprovedMastermind
                 userInputPanel.Refresh();
             }
         }
+
+        /// <summary>
+        /// Handles the event when the submit button is clicked and processes the user's guess.
+        /// </summary>
+        /// <param name="sender">The sender object.</param>
+        /// <param name="e">The EventArgs.</param>
         private async void submitButton_Click(object sender, EventArgs e)
         {
             if (userPegsArrayCounter == model.CodeLength)
@@ -219,13 +255,29 @@ namespace ImprovedMastermind
             }
         }
 
-
+        /// <summary>
+        /// Handles the click event of the helpButton, displaying an inherited help menu.
+        /// </summary>
+        /// <param name="sender">The sender object.</param>
+        /// <param name="e">The EventArgs.</param>
         private void helpButton_Click(object sender, EventArgs e)
         {
             InheritedHelpMenu inheritedHelpMenu = new();
             inheritedHelpMenu.Show();
-
         }
+
+        /// <summary>
+        /// Event handler for the click event of the quit button. Terminates the application.
+        /// </summary>
+        /// <param name="sender">The sender object.</param>
+        /// <param name="e">The EventArgs.</param>
+        private void quitButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+        /// <summary>
+        /// Disables various elements on the game board to prevent user interaction.
+        /// </summary>
         private void DisableElements()
         {
             submitButton.Enabled = false;
@@ -242,12 +294,20 @@ namespace ImprovedMastermind
             quitButton.Enabled = false;
             clearButton.Enabled = false;
         }
+
+        /// <summary>
+        /// Hides the game board after a delay, creating a smooth transition.
+        /// </summary>
         private async void BoardHide()
         {
             await Task.Delay(3000);
             Hide();
         }
 
+        /// <summary>
+        /// Displays the lose screen if the game is lost.
+        /// </summary>
+        /// <returns>A Task representing the asynchronous operation.</returns>
         public async Task Lose()
         {
             if (!isWinScreenDisplayed && !model.CheckWinState() && game.GetAttemptsLeft() == 0)
@@ -259,6 +319,10 @@ namespace ImprovedMastermind
             }
         }
 
+        /// <summary>
+        /// Displays the win screen if the game is won.
+        /// </summary>
+        /// <returns>A Task representing the asynchronous operation. The result is true if the win screen is displayed; otherwise, false.</returns>
         public async Task<bool> Win()
         {
             if (!isWinScreenDisplayed && model.CheckWinState())
@@ -270,6 +334,7 @@ namespace ImprovedMastermind
             }
             return isWinScreenDisplayed;
         }
+
 
     }
 }
