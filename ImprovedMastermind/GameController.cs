@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace ImprovedMastermind
+﻿namespace ImprovedMastermind
 {
 
     public class GameController
@@ -21,6 +13,14 @@ namespace ImprovedMastermind
         public GameController(int codeLength, int maxAttempts)
         {
             model = new MastermindGame(codeLength, maxAttempts);
+        }
+
+        public Board AttemptsLeft
+        {
+            get => default;
+            set
+            {
+            }
         }
 
         /// <summary>

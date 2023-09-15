@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing.Drawing2D;
 
 namespace ImprovedMastermind
 {
@@ -12,6 +7,14 @@ namespace ImprovedMastermind
     /// </summary>
     public class CircleButtons : Button
     {
+        public MastermindGame CircleBtns
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         /// <summary>
         /// Overrides the default OnPaint method, so it has the same functions as a regular button.
         /// This is allows the user to change colour, size and position like a regular button.

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
-using System.Drawing;
-using System.Reflection;
-
-namespace ImprovedMastermind
+﻿namespace ImprovedMastermind
 {
     public class MastermindGame
     {
@@ -25,9 +19,17 @@ namespace ImprovedMastermind
         private Random randomGenerator;
 
         public int AttemptsLeft { get; set; }
-        public int GuessCount { get; set; }  
+        public int GuessCount { get; set; }
         public int GuessRowPositionTracker { get; set; }
         public int CodeLength { get { return codeLength; } }
+
+        public Board DrawPegs
+        {
+            get => default;
+            set
+            {
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the MastermindGame class with the specified codeLength and maxAttempts.
@@ -124,7 +126,7 @@ namespace ImprovedMastermind
                 userPegs[indexUser] = pegValue;
             }
         }
-        
+
         /// <summary>
         /// Draws the clue pegs on the graphics object based on the cluePegStore array.
         /// </summary>
@@ -137,7 +139,7 @@ namespace ImprovedMastermind
         {
             int rowCount = 0; // Keep track of the current row count
             int columnCount = 0; // Keep track of the current column count
-            
+
             for (int i = 0; i < endIndex; i++)
             {
                 // Calculate the position for the current clue peg

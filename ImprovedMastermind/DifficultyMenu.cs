@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace ImprovedMastermind
+﻿namespace ImprovedMastermind
 {
     public partial class DifficultyMenu : Form
     {
@@ -31,6 +21,15 @@ namespace ImprovedMastermind
             {
             }
         }
+
+        public Board StartGame
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         private void playButton_Click(object sender, EventArgs e)
         {
             if ((guessNumber == 8 || guessNumber == 10 || guessNumber == 12 || guessNumber == 14 || guessNumber == 16) && (codeLength == 4 || codeLength == 6 || codeLength == 8))

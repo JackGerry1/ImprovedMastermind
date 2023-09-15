@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.AxHost;
-
-namespace ImprovedMastermind
+﻿namespace ImprovedMastermind
 {
     public partial class Board : Form
     {
@@ -44,6 +33,14 @@ namespace ImprovedMastermind
             userPegs = new int[model.CodeLength];
             submittedPegs = new int[model.CodeLength];
             submittedPegStore = new int[model.CodeLength, model.AttemptsLeft];
+        }
+
+        public LoseScreen LoseScreen
+        {
+            get => default;
+            set
+            {
+            }
         }
 
         /// <summary>

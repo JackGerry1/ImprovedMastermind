@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ImprovedMastermind.Board">
+    <Position X="12.25" Y="3.5" Width="1.5" />
+    <AssociationLine Name="LoseScreen" Type="ImprovedMastermind.LoseScreen" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.75" Y="12.875" />
+        <Point X="14.125" Y="12.875" />
+        <Point X="14.125" Y="12.366" />
+        <Point X="16.75" Y="12.366" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AA0ERAAgAKGVJAAEIVbAJEhCABAACAEIMEwEMAAMAEI=</HashCode>
+      <FileName>Board.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="LoseScreen" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ImprovedMastermind.CircleButtons">
+    <Position X="18.75" Y="4.75" Width="1.5" />
+    <AssociationLine Name="CircleBtns" Type="ImprovedMastermind.MastermindGame">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.374" Y="0.072" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CircleButtons.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CircleBtns" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ImprovedMastermind.DifficultyMenu">
+    <Position X="9.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAgACEAIIAABACAQEAiAAAAAAIAAAgACCIEAAA=</HashCode>
+      <FileName>DifficultyMenu.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="StartGame" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ImprovedMastermind.GameController">
+    <Position X="15.75" Y="15" Width="1.5" />
+    <AssociationLine Name="AttemptsLeft" Type="ImprovedMastermind.Board" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="15.75" Y="15.975" />
+        <Point X="15.375" Y="15.975" />
+        <Point X="15.375" Y="12.937" />
+        <Point X="13.75" Y="12.937" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="1.284" Y="0.12" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAQAAAAAAAAAAAgAAAAAAAIAAA=</HashCode>
+      <FileName>GameController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="AttemptsLeft" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ImprovedMastermind.HelpMenu">
+    <Position X="3.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>FQAAAAAAACAIAIAAACCAAAACAQIAAAAAAJEAAAAAAAg=</HashCode>
+      <FileName>HelpMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImprovedMastermind.InheritedHelpMenu">
+    <Position X="3.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAACEAAAAAAACAAAACAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>InheritedHelpMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImprovedMastermind.LoseScreen">
+    <Position X="16.75" Y="10.75" Width="1.5" />
+    <AssociationLine Name="CountDownNumber" Type="ImprovedMastermind.GameController" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="18.25" Y="13.437" />
+        <Point X="18.625" Y="13.437" />
+        <Point X="18.625" Y="16.375" />
+        <Point X="17.25" Y="16.375" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.75" Y="1.185" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgACEAEAAAABCAIAACAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LoseScreen.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CountDownNumber" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ImprovedMastermind.MainMenu">
+    <Position X="7" Y="0.75" Width="1.5" />
+    <AssociationLine Name="HelpMenu" Type="ImprovedMastermind.HelpMenu" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7" Y="2.765" />
+        <Point X="5.888" Y="2.765" />
+        <Point X="5.888" Y="6.938" />
+        <Point X="4.75" Y="6.938" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.194" Y="1.054" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="DifficultyMenu" Type="ImprovedMastermind.DifficultyMenu" FixedFromPoint="true">
+      <Path>
+        <Point X="8.5" Y="3.688" />
+        <Point X="9.75" Y="3.688" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgACEAACAAwQSAAAACAACACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MainMenu.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="HelpMenu" />
+      <Property Name="DifficultyMenu" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ImprovedMastermind.MastermindGame">
+    <Position X="15.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEEAEADAABQAECEECBQAAAAAAAIAARAwAIUAAAAEGAI=</HashCode>
+      <FileName>MastermindGame.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DrawPegs" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ImprovedMastermind.Program">
+    <Position X="3.25" Y="0.75" Width="1.5" />
+    <AssociationLine Name="MainMenu" Type="ImprovedMastermind.MainMenu">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.589" Y="0.072" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="MainMenu" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ImprovedMastermind.WinScreen">
+    <Position X="7.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAgACEAAAAAABCAAAACAEAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>WinScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
