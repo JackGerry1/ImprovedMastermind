@@ -1,6 +1,7 @@
 # Improved Mastermind Game
 
 This is a GUI implementation of the game Mastermind, with some enhancements and improvements, such as rewriting the code in a more MVC manner. The game allows the player to guess a secret code within a limited number of attempts.
+![demo](github_assets/rnu-spfo-jhu2025-07-0721_02GMT1-ezgif.com-video-to-gif-converter.gif)
 
 # Files
 
